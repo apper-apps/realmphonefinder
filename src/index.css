@@ -50,7 +50,7 @@
 /* Component Styles */
 @layer components {
   .phone-card {
-    @apply bg-white rounded-lg shadow-card hover:shadow-card-hover transition-all duration-200 transform hover:scale-102 cursor-pointer;
+    @apply bg-white rounded-lg shadow-card hover:shadow-card-hover transition-all duration-200 transform hover:scale-105 cursor-pointer;
   }
   
   .filter-chip {
