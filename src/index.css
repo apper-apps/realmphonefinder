@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Toast Container Overrides */
+.Toastify__toast-container {
+  width: auto;
+  max-width: 380px;
+}
+
+.Toastify__toast {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  padding: 12px 16px;
+}
+
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #43A047 0%, #4CAF50 100%);
+}
+
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #E53935 0%, #F44336 100%);
+}
+
+.Toastify__toast--warning {
+  background: linear-gradient(135deg, #FB8C00 0%, #FF9800 100%);
+}
+
+.Toastify__toast--info {
+  background: linear-gradient(135deg, #1E88E5 0%, #2196F3 100%);
+}
+
+/* Base Styles */
+@layer base {
+  html {
+    font-family: "Inter", sans-serif;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+}
+
+/* Component Styles */
+@layer components {
+  .phone-card {
+    @apply bg-white rounded-lg shadow-card hover:shadow-card-hover transition-all duration-200 transform hover:scale-102 cursor-pointer;
+  }
+  
+  .filter-chip {
+    @apply px-3 py-1 rounded-full text-sm font-medium transition-all duration-200;
+  }
+  
+  .filter-chip-active {
+    @apply bg-primary text-white;
+  }
+  
+  .filter-chip-inactive {
+    @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
+  }
+  
+  .price-highlight {
+    @apply text-secondary font-bold text-lg;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary to-accent text-white px-4 py-2 rounded-lg hover:brightness-110 transition-all duration-200 font-medium;
+  }
+  
+  .btn-secondary {
+    @apply bg-gradient-to-r from-secondary to-warning text-white px-4 py-2 rounded-lg hover:brightness-110 transition-all duration-200 font-medium;
+  }
+  
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200;
+  }
+  
+  .select-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white;
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-102;
+  }
+  
+  .animation-delay-100 {
+    animation-delay: 0.1s;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 0.3s;
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .backdrop-blur-strong {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Custom Animations */
+@keyframes scale {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.98); }
+  100% { transform: scale(1); }
+}
+
+.scale-press {
+  animation: scale 0.15s ease-out;
+}
+
+/* Loading Shimmer Effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
