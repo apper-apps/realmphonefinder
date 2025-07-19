@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { phoneService } from "@/services/api/phoneService";
 import { toast } from "react-toastify";
+import FilterChip from "@/components/molecules/FilterChip";
 
 export const usePhoneFilters = () => {
   const [phones, setPhones] = useState([]);
@@ -9,13 +10,14 @@ export const usePhoneFilters = () => {
   const [error, setError] = useState(null);
   const [selectedPhones, setSelectedPhones] = useState([]);
   
-  const [filters, setFilters] = useState({
+const [filters, setFilters] = useState({
     minPrice: null,
     maxPrice: null,
     selectedBrand: "all",
     selectedRam: "all",
     batteryAbove5000: false,
-    sortBy: ""
+    sortBy: "",
+    usagePreferences: []
   });
 
   const [metadata, setMetadata] = useState({
@@ -75,14 +77,15 @@ export const usePhoneFilters = () => {
   }, []);
 
   // Clear all filters
-  const clearFilters = useCallback(() => {
+const clearFilters = useCallback(() => {
     setFilters({
       minPrice: null,
       maxPrice: null,
       selectedBrand: "all",
       selectedRam: "all",
       batteryAbove5000: false,
-      sortBy: ""
+      sortBy: "",
+      usagePreferences: []
     });
     toast.success("Filters cleared");
   }, []);

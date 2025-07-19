@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
+import ApperIcon from "@/components/ApperIcon";
 import PriceRange from "@/components/molecules/PriceRange";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
-import ApperIcon from "@/components/ApperIcon";
 
 const FilterPanel = ({
   filters,
@@ -37,13 +37,14 @@ const FilterPanel = ({
     });
   };
 
-  const hasActiveFilters = () => {
+const hasActiveFilters = () => {
     return filters.minPrice || 
            filters.maxPrice || 
            (filters.selectedBrand && filters.selectedBrand !== "all") ||
            (filters.selectedRam && filters.selectedRam !== "all") ||
            filters.batteryAbove5000 ||
-           filters.sortBy;
+           filters.sortBy ||
+           (filters.usagePreferences && filters.usagePreferences.length > 0);
   };
 
   return (
@@ -69,8 +70,34 @@ const FilterPanel = ({
           </Button>
         )}
       </div>
+<div className="space-y-6">
+        {/* Active Usage Preferences Filter Bar */}
+        {filters.usagePreferences && filters.usagePreferences.length > 0 && (
+          <div className="space-y-2">
+            <h4 className="text-sm font-medium text-gray-700">Usage Preferences:</h4>
+            <div className="flex flex-wrap gap-2">
+              {filters.usagePreferences.map((preference) => (
+                <div
+                  key={preference}
+                  className="inline-flex items-center gap-2 px-3 py-1 bg-primary text-white text-sm rounded-full"
+                >
+                  <span>{preference}</span>
+                  <button
+                    onClick={() => {
+                      const updated = filters.usagePreferences.filter(p => p !== preference);
+                      handleFilterChange("usagePreferences", updated);
+                    }}
+                    className="hover:bg-white hover:text-primary rounded-full p-0.5 transition-colors"
+                    aria-label={`Remove ${preference} filter`}
+                  >
+                    <ApperIcon name="X" size={12} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
-      <div className="space-y-6">
         {/* Price Range */}
         <PriceRange
           minPrice={filters.minPrice}
@@ -80,6 +107,7 @@ const FilterPanel = ({
           priceRange={priceRange}
         />
 
+        {/* Brand Selection */}
         {/* Brand Selection */}
         <div>
           <Select
@@ -117,6 +145,43 @@ const FilterPanel = ({
               </span>
             </div>
           </label>
+</div>
+
+        {/* Usage Preferences */}
+        <div>
+          <h3 className="text-sm font-medium text-gray-700 mb-3">Usage Preferences</h3>
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { value: "Gaming", icon: "Gamepad2" },
+              { value: "Photography", icon: "Camera" },
+              { value: "Daily Use", icon: "Smartphone" },
+              { value: "Business", icon: "Briefcase" }
+            ].map((usage) => (
+              <button
+                key={usage.value}
+                onClick={() => {
+                  const currentPrefs = filters.usagePreferences || [];
+                  const isSelected = currentPrefs.includes(usage.value);
+                  const updatedPrefs = isSelected
+                    ? currentPrefs.filter(p => p !== usage.value)
+                    : [...currentPrefs, usage.value];
+                  handleFilterChange("usagePreferences", updatedPrefs);
+                }}
+                className={`flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  (filters.usagePreferences || []).includes(usage.value)
+                    ? "bg-primary text-white shadow-sm"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                <ApperIcon 
+                  name={usage.icon} 
+                  size={14} 
+                  className={(filters.usagePreferences || []).includes(usage.value) ? "text-white" : "text-gray-500"}
+                />
+                <span>{usage.value}</span>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Sort Options */}
@@ -129,7 +194,6 @@ const FilterPanel = ({
             icon="ArrowUpDown"
           />
         </div>
-
         {/* Filter Summary */}
         {hasActiveFilters() && (
           <div className="pt-4 border-t border-gray-200">
@@ -152,8 +216,11 @@ const FilterPanel = ({
               {filters.batteryAbove5000 && (
                 <div>• Battery: 5000mAh+</div>
               )}
-              {filters.sortBy && (
+{filters.sortBy && (
                 <div>• Sort: {sortOptions.find(opt => opt.value === filters.sortBy)?.label}</div>
+              )}
+              {filters.usagePreferences && filters.usagePreferences.length > 0 && (
+                <div>• Usage: {filters.usagePreferences.join(", ")}</div>
               )}
             </div>
           </div>
